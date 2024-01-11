@@ -8,6 +8,17 @@ import * as SQLite from 'react-native-sqlite-storage';
  * 3. persist with async from react-native-async-storage
  */
 
+interface IGlobalStore {
+  categories: ICategory[]
+  tasks: ITask[]
+  addTask: (task: ITask) => void
+  addCategory: (category: ICategory) => void
+  updateTasks: (tasks: ITask[]) => void
+  selectedCategory: null | ICategory
+  updateSelectedCategory: (category: ICategory) => void
+  toggleTaskStatus: (task: ITask) => void
+}
+
 SQLite.DEBUG(true); // Optional for debugging
 SQLite.enablePromise(true); // Use promises for async operations
 
@@ -26,17 +37,6 @@ db.transaction((tx) => {
     []
   );
 });
-
-interface IGlobalStore {
-  categories: ICategory[]
-  tasks: ITask[]
-  addTask: (task: ITask) => void
-  addCategory: (category: ICategory) => void
-  updateTasks: (tasks: ITask[]) => void
-  selectedCategory: null | ICategory
-  updateSelectedCategory: (category: ICategory) => void
-  toggleTaskStatus: (task: ITask) => void
-}
 
 const useGlobalStore = create<IGlobalStore>()(
   persist(
